@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">Patients List</div>
             <div class="card-body">
-                <form method="get" th:action="@{index}">
+                <form method="get" th:action="@{/user/index}">
                     <div class="input-group mb-3 pe-5" style="width: 35%">
                         <input type="text" class="form-control" placeholder="Keyword" aria-label="Keyword"
                                aria-describedby="button-addon2" name="keyword" th:value="${keyword}">
@@ -31,8 +31,11 @@
                         <th>Birthday</th>
                         <th>Sick</th>
                         <th>Score</th>
-                        <th>Delete Patient</th>
-                        <th>Edit Patient</th>
+                        <section th:if="${#authentication.name == 'admin'}">
+
+                            <th>Delete Patient</th>
+                            <th>Edit Patient</th>
+                        </section>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,19 +45,19 @@
                         <td th:text="${p.getBirthDay()}"></td>
                         <td th:text="${p.isSick()}"></td>
                         <td th:text="${p.getScore()}"></td>
-                        <td>
+                        <td th:if="${#authentication.name == 'admin'}">
                             <a
                                     onclick="return confirm('Are you sure?')"
                                     class="btn btn-danger "
-                                    th:href="@{delete(id=${p.getId()},page=${currentPage},keyword=${keyword})}"
+                                    th:href="@{/admin/delete(id=${p.getId()},page=${currentPage},keyword=${keyword})}"
                             >
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
-                        <td>
+                        <td th:if="${#authentication.name == 'admin'}">
                             <a
                                     class="btn btn-success "
-                                    th:href="@{editPatient(id=${p.getId()},page=${currentPage},keyword=${keyword})}"
+                                    th:href="@{/admin/editPatient(id=${p.getId()},page=${currentPage},keyword=${keyword})}"
                             >
                                 <i class="bi bi-pencil-square"></i>
                             </a>

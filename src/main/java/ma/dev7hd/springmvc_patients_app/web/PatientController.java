@@ -13,15 +13,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
 public class PatientController {
     PatientRepository patientRepository;
 
-    @GetMapping(path = "/index")
+    @GetMapping("/")
+    public String home(){
+        return "redirect:/user/index";
+    }
+
+    @GetMapping(path = "/user/index")
     public String listPatients(
             Model model,
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -38,22 +41,17 @@ public class PatientController {
         return "index";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/admin/delete")
     public String delete(
             @RequestParam(name = "id") Long id,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "keyword", defaultValue = "") String keyword
     ){
         patientRepository.deleteById(id);
-        return "redirect:/index?page=" + page + "&keyword=" + keyword;
+        return "redirect:/user/index?page=" + page + "&keyword=" + keyword;
     }
 
-    @GetMapping("/")
-    public String home(){
-        return "redirect:/index";
-    }
-
-    @GetMapping("/newPatient")
+    @GetMapping("/admin/newPatient")
     public String newPatient(
             @RequestParam(name = "successSave", defaultValue = "false") boolean successSave,
             Model model
@@ -63,7 +61,7 @@ public class PatientController {
         return "newPatient";
     }
 
-    @PostMapping("/savePatient")
+    @PostMapping("/admin/savePatient")
     public String savePatient(
             @Valid Patient patient,
             BindingResult bindingResult
@@ -73,10 +71,10 @@ public class PatientController {
         }
 
         patientRepository.save(patient);
-        return "redirect:/newPatient?successSave=true";
+        return "redirect:/admin/newPatient?successSave=true";
     }
 
-    @GetMapping("/editPatient")
+    @GetMapping("/admin/editPatient")
     public String editPatient(
             Model model,
             @RequestParam(name = "id") Long id,
@@ -90,7 +88,7 @@ public class PatientController {
         return "editPatient";
     }
 
-    @PostMapping("/saveEditedPatient")
+    @PostMapping("/admin/saveEditedPatient")
     public String saveEditedPatient(
             @Valid Patient patient,
             BindingResult bindingResult,
@@ -101,7 +99,7 @@ public class PatientController {
             return "editPatient";
         }
         patientRepository.save(patient);
-        return "redirect:/index?page=" + page + "&keyword=" + keyword + "&successUpdate=true";
+        return "redirect:/user/index?page=" + page + "&keyword=" + keyword + "&successUpdate=true";
     }
 
 

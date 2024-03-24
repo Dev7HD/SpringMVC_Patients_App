@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">Edit Patient</div>
             <div class="card-body">
-                <form class="row g-2" method="post" th:action="@{saveEditedPatient(page=${currentPage},keyword=${keyword})}">
+                <form class="row g-2" method="post" th:action="@{/admin/saveEditedPatient(page=${currentPage},keyword=${keyword})}">
                     <div class="col-md-12">
                         <label for="inputId" class="form-label">id</label>
                         <input type="number" class="form-control" id="inputId" name="id" th:value="${patient.id}" >
