@@ -54,20 +54,26 @@ public class PatientController {
     }
 
     @GetMapping("/newPatient")
-    public String newPatient(Model model){
+    public String newPatient(
+            @RequestParam(name = "successSave", defaultValue = "false") boolean successSave,
+            Model model
+    ){
         model.addAttribute("patient", new Patient());
+        model.addAttribute("successSave", successSave);
         return "newPatient";
     }
 
     @PostMapping("/savePatient")
-    public String savePatient(@Valid Patient patient, BindingResult bindingResult){
+    public String savePatient(
+            @Valid Patient patient,
+            BindingResult bindingResult
+    ){
         if (bindingResult.hasErrors()) {
             return "newPatient";
         }
 
-        System.out.println(patient);
         patientRepository.save(patient);
-        return "newPatient";
+        return "redirect:/newPatient?successSave=true";
     }
 
     @GetMapping("/editPatient")
