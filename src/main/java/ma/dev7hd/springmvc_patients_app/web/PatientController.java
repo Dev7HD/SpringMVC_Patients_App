@@ -27,7 +27,7 @@ public class PatientController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "5") int size,
             @RequestParam(name = "keyword", defaultValue = "") String kw,
-            @RequestParam(name = "successUpdate", defaultValue = "false") String successUpdate
+            @RequestParam(name = "successUpdate", defaultValue = "false") boolean successUpdate
     ){
         Page<Patient> patientsList = patientRepository.findByNameContains(kw, PageRequest.of(page,size));
         model.addAttribute("patientsList", patientsList.getContent());
