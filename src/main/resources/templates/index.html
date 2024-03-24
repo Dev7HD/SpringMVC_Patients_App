@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="navbar.html"
+>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="webjars/bootstrap/5.3.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+    <title>Patients</title>
 </head>
 <body>
+<div layout:fragment="content">
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">Patients List</div>
             <div class="card-body">
                 <form method="get" th:action="@{index}">
                     <div class="input-group mb-3 pe-5" style="width: 35%">
-                        <input type="text" class="form-control" placeholder="Keyword" aria-label="Keyword" aria-describedby="button-addon2" name="keyword" th:value="${keyword}">
+                        <input type="text" class="form-control" placeholder="Keyword" aria-label="Keyword"
+                               aria-describedby="button-addon2" name="keyword" th:value="${keyword}">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
                             <i class="bi bi-search"></i>
                         </button>
@@ -28,6 +32,7 @@
                         <th>Sick</th>
                         <th>Score</th>
                         <th>Delete Patient</th>
+                        <th>Edit Patient</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,16 +45,26 @@
                         <td>
                             <a
                                     onclick="return confirm('Are you sure?')"
-                                    class="btn btn-danger " th:href="@{delete(id=${p.getId()},page=${currentPage},keyword=${keyword})}"
+                                    class="btn btn-danger "
+                                    th:href="@{delete(id=${p.getId()},page=${currentPage},keyword=${keyword})}"
                             >
                                 <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a
+                                    class="btn btn-success "
+                                    th:href="@{editPatient(id=${p.getId()},page=${currentPage},keyword=${keyword})}"
+                            >
+                                <i class="bi bi-pencil-square"></i>
                             </a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <!--Pagination-->
                 <ul class="nav nav-pills">
-                    <li th:each="page,status:${pages}" >
+                    <li th:each="page,status:${pages}">
                         <a
                                 th:text="${status.count}"
                                 th:class="${status.index == currentPage ? 'btn btn-secondary me-1' : 'btn btn-outline-secondary me-1'}"
@@ -60,6 +75,31 @@
             </div>
         </div>
     </div>
+    <!-- Modal Patient Success Update-->
+    <div th:if="${successUpdate == 'true'}">
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Patient update</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Patient's information have been successfully updated</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const modal = new bootstrap.Modal('#staticBackdrop');
+            modal.show();
+        </script>
+    </div>
+</div>
 
 </body>
 </html>
