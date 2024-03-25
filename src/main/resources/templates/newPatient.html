@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div th:if="${successSave}">
+        <div th:if="${param.newPatientAdded}">
 
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -68,7 +68,7 @@
                 modal.show();
                 function removeParamFromURL() {
                     const urlObj = new URL(window.location.href);
-                    urlObj.searchParams.delete('successSave');
+                    urlObj.searchParams.delete('newPatientAdded');
                     window.location.href = urlObj.href;
                 }
             </script>

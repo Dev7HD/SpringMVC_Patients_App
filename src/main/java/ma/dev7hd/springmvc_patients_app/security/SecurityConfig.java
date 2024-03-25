@@ -31,7 +31,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(ar->ar.requestMatchers("/deletePatient/**").hasRole("ADMIN"))
                 .authorizeHttpRequests(ar->ar.requestMatchers("/admin/**").hasRole("ADMIN"))
                 .authorizeHttpRequests(ar->ar.requestMatchers("/user/**").hasRole("USER"))
-                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .formLogin(form->form.loginPage("/login").permitAll())
+                .authorizeHttpRequests(auth->auth.requestMatchers("/images/**").permitAll()
+                        .anyRequest().authenticated())
                 .build();
     }
 }

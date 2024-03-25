@@ -71,7 +71,7 @@ public class PatientController {
         }
 
         patientRepository.save(patient);
-        return "redirect:/admin/newPatient?successSave=true";
+        return "redirect:/admin/newPatient?newPatientAdded";
     }
 
     @GetMapping("/admin/editPatient")
@@ -99,9 +99,12 @@ public class PatientController {
             return "editPatient";
         }
         patientRepository.save(patient);
-        return "redirect:/user/index?page=" + page + "&keyword=" + keyword + "&successUpdate=true";
+        return "redirect:/user/index?page=" + page + "&keyword=" + keyword + "&successUpdate";
     }
-
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 
 }
 
