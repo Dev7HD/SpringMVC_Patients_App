@@ -17,7 +17,6 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder passwordEncoder){
         String encodedPassword = passwordEncoder.encode("1234");
-        System.out.println(encodedPassword);
         return new InMemoryUserDetailsManager(
                 User.withUsername("user1").password(encodedPassword).roles("USER").build(),
                 User.withUsername("user2").password(encodedPassword).roles("USER").build(),

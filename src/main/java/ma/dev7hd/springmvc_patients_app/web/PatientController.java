@@ -20,7 +20,12 @@ public class PatientController {
     PatientRepository patientRepository;
 
     @GetMapping("/")
-    public String home(){
+    public String home1(){
+        return "redirect:/user/index";
+    }
+
+    @GetMapping("/index")
+    public String home2(){
         return "redirect:/user/index";
     }
 
